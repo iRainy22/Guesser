@@ -103,16 +103,70 @@ TEST(GuesserTest, D_LongSecret) {
   count down as usual to hide that the secret has been locked.
 */
 
+TEST(GuesserTest, M_Pass) {
+    Guesser object("AAA");
+    int actual = Guesser.match("AAA");
+    ASSERT_EQ(true, actual);
+}
+
+TEST(GuesserTest, M_OneOff) {
+    Guesser object("AAA");
+    int actual = Guesser.match("AaA");
+    ASSERT_EQ(false, actual);
+}
+
+TEST(GuesserTest, M_NumbersPass) {
+    Guesser object("123");
+    int actual = Guesser.match("123");
+    ASSERT_EQ(true, actual);
+}
+
+TEST(GuesserTest, M_NumbersFail) {
+    Guesser object("321");
+    int actual = Guesser.match("320");
+    ASSERT_EQ(false, actual);
+}
+
+TEST(GuesserTest, M_emptysecret) {
+    Guesser object("");
+    int actual = Guesser.match("A");
+    ASSERT_EQ(false, actual);
+}
+
+TEST(GuesserTest, M_emptystring) {
+    Guesser object("A");
+    int actual = Guesser.match("");
+    ASSERT_EQ(false, actual);
+}
+
+TEST(GuesserTest, M_UnlockandPass) {
+    Guesser object("abc");
+
+    Guesser.match("ab");
+    Guesser.match("ab");
+    Guesser.match("abc") //unlock
+    int actual = Guesser.match("abc");
+
+    ASSERT_EQ(true, actual);
+}
+
+TEST(GuesserTest, M_LockandFail) {
+    Guesser object("abc");
+
+    Guesser.match("ab");
+    Guesser.match("ab");
+    Guesser.match("ab"); //lock
+
+    int actual = Guesser.match("abc");
+    ASSERT_EQ(true, actual);
+}
 
 
+TEST(GuesserTest, M_LongLockandFail) {
+    Guesser object("abc");
+    Guesser.match("abcdef"); //lock
 
-// TEST Guesser
-/*
-  Constructor requires that the secret phrase is provided its value as
-  an argument. This secret will not change for the lifespan of an instance
-  of any Guesser object and must have a length of 32 characters or less,
-  otherwise, it will be truncated at that length.
-*/
-
-
+    int actual = Guesser.match("abc");
+    ASSERT_EQ(true, actual);
+}
 
