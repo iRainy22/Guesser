@@ -40,6 +40,49 @@ TEST(GuesserTest, D_OneOff) {
     ASSERT_EQ(1, actual)
 }
 
+TEST(GuesserTest, D_EmptyString) {
+    Guesser object("ABCde");
+    int actual = Guesser.distance("");
+    ASSERT_EQ(5, actual)
+}
+
+TEST(GuesserTest, D_Capsdif) {
+    Guesser object("ABC");
+    int actual = Guesser.distance("abc");
+    ASSERT_EQ(3, actual)
+}
+
+TEST(GuesserTest, D_SpecialChars) {
+    Guesser object("abcdef");
+    int actual = Guesser.distance("@$&>^\");
+    ASSERT_EQ(6, actual)
+}
+
+TEST(GuesserTest, D_NumbersPass) {
+    Guesser object("123");
+    int actual = Guesser.distance("123");
+    ASSERT_EQ(0, actual)
+}
+
+TEST(GuesserTest, D_NumbersFail) {
+    Guesser object("512");
+    int actual = Guesser.distance("215");
+    ASSERT_EQ(2, actual)
+}
+
+TEST(GuesserTest, D_LongGuess) {
+    Guesser object("ABC");
+    int actual = Guesser.distance("AlphabetAlphabetAlphabet");
+    ASSERT_EQ(3, actual)
+}
+
+TEST(GuesserTest, D_LongSecret) {
+    Guesser object("AlphabetAlphabetAlphabet");
+    int actual = Guesser.distance("one");
+    ASSERT_EQ(21, actual)
+}
+
+
 // TEST Match
 /*
   Determines and returns whether the provided guess matches the secret
