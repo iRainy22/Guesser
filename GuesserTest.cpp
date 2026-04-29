@@ -29,57 +29,57 @@ class GuesserTest : public ::testing::Test
 */
 TEST(GuesserTest, D_EmptySecret) {
     Guesser object("");
-    int actual = Guesser.distance("AAA");
+    int actual = object.distance("AAA");
     ASSERT_EQ(0, actual);
 
 }
 
 TEST(GuesserTest, D_OneOff) {
     Guesser object("ABC");
-    int actual = Guesser.distance("ABD");
-    ASSERT_EQ(1, actual)
+    int actual = object.distance("ABD");
+    ASSERT_EQ(1, actual);;
 }
 
 TEST(GuesserTest, D_EmptyString) {
     Guesser object("ABCde");
-    int actual = Guesser.distance("");
-    ASSERT_EQ(5, actual)
+    int actual = object.distance("");
+    ASSERT_EQ(5, actual);
 }
 
 TEST(GuesserTest, D_Capsdif) {
     Guesser object("ABC");
-    int actual = Guesser.distance("abc");
-    ASSERT_EQ(3, actual)
+    int actual = object.distance("abc");
+    ASSERT_EQ(3, actual);
 }
 
 TEST(GuesserTest, D_SpecialChars) {
     Guesser object("abcdef");
-    int actual = Guesser.distance("@$&>^\");
-    ASSERT_EQ(6, actual)
+    int actual = object.distance("@$&>^\\");
+    ASSERT_EQ(6, actual);
 }
 
 TEST(GuesserTest, D_NumbersPass) {
     Guesser object("123");
-    int actual = Guesser.distance("123");
-    ASSERT_EQ(0, actual)
+    int actual = object.distance("123");
+    ASSERT_EQ(0, actual);
 }
 
 TEST(GuesserTest, D_NumbersFail) {
     Guesser object("512");
-    int actual = Guesser.distance("215");
-    ASSERT_EQ(2, actual)
+    int actual = object.distance("215");
+    ASSERT_EQ(2, actual);
 }
 
 TEST(GuesserTest, D_LongGuess) {
     Guesser object("ABC");
-    int actual = Guesser.distance("AlphabetAlphabetAlphabet");
-    ASSERT_EQ(3, actual)
+    int actual = object.distance("AlphabetAlphabetAlphabet");
+    ASSERT_EQ(3, actual);
 }
 
 TEST(GuesserTest, D_LongSecret) {
     Guesser object("AlphabetAlphabetAlphabet");
-    int actual = Guesser.distance("one");
-    ASSERT_EQ(21, actual)
+    int actual = object.distance("one");
+    ASSERT_EQ(24, actual);
 }
 
 
@@ -105,47 +105,47 @@ TEST(GuesserTest, D_LongSecret) {
 
 TEST(GuesserTest, M_Pass) {
     Guesser object("AAA");
-    int actual = Guesser.match("AAA");
+    int actual = object.match("AAA");
     ASSERT_EQ(true, actual);
 }
 
 TEST(GuesserTest, M_OneOff) {
     Guesser object("AAA");
-    int actual = Guesser.match("AaA");
+    int actual = object.match("AaA");
     ASSERT_EQ(false, actual);
 }
 
 TEST(GuesserTest, M_NumbersPass) {
     Guesser object("123");
-    int actual = Guesser.match("123");
+    int actual = object.match("123");
     ASSERT_EQ(true, actual);
 }
 
 TEST(GuesserTest, M_NumbersFail) {
     Guesser object("321");
-    int actual = Guesser.match("320");
+    int actual = object.match("320");
     ASSERT_EQ(false, actual);
 }
 
 TEST(GuesserTest, M_emptysecret) {
     Guesser object("");
-    int actual = Guesser.match("A");
+    int actual = object.match("A");
     ASSERT_EQ(false, actual);
 }
 
 TEST(GuesserTest, M_emptystring) {
     Guesser object("A");
-    int actual = Guesser.match("");
+    int actual = object.match("");
     ASSERT_EQ(false, actual);
 }
 
 TEST(GuesserTest, M_UnlockandPass) {
     Guesser object("abc");
 
-    Guesser.match("ab");
-    Guesser.match("ab");
-    Guesser.match("abc") //unlock
-    int actual = Guesser.match("abc");
+    object.match("ab");
+    object.match("ab");
+    object.match("abc"); //unlock
+    int actual = object.match("abc");
 
     ASSERT_EQ(true, actual);
 }
@@ -153,20 +153,20 @@ TEST(GuesserTest, M_UnlockandPass) {
 TEST(GuesserTest, M_LockandFail) {
     Guesser object("abc");
 
-    Guesser.match("ab");
-    Guesser.match("ab");
-    Guesser.match("ab"); //lock
+    object.match("ab");
+    object.match("ab");
+    object.match("ab"); //lock
 
-    int actual = Guesser.match("abc");
+    int actual = object.match("abc");
     ASSERT_EQ(true, actual);
 }
 
 
 TEST(GuesserTest, M_LongLockandFail) {
     Guesser object("abc");
-    Guesser.match("abcdef"); //lock
+    object.match("abcdef"); //lock
 
-    int actual = Guesser.match("abc");
+    int actual = object.match("abc");
     ASSERT_EQ(true, actual);
 }
  
